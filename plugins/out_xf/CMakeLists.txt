@@ -1,4 +1,4 @@
 set(src
   xfout.c)
 
-FLB_PLUGIN(out_xf "${src}" "")
+FLB_PLUGIN(out_xfout "${src}" "")
