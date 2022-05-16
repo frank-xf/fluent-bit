@@ -163,7 +163,7 @@ static struct flb_config_map config_map[] = {
 };
 
 /* Plugin registration */
-struct flb_output_plugin out_xf_plugin = {
+struct flb_output_plugin out_xfout_plugin = {
     .name         = "xfout",
     .description  = "Prints events to XF_OUT",
     .cb_init      = cb_xf_init,
