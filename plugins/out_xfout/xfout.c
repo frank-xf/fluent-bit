@@ -52,10 +52,19 @@ static int cb_xf_init(struct flb_output_instance *ins,
         return -1;
     }
 
+    tmp = flb_output_get_property("name", ins);
+    if (tmp) {
+        printf("name-> %s\n", tmp);
+    }
+    tmp = flb_output_get_property("tag", ins);
+    if (tmp) {
+        printf("tag-> %s\n", tmp);
+    }
+
     /* Export context */
     flb_output_set_context(ins, ctx);
 
-    printf("ctx->name: %s, ctx->tag: %d", ctx->name, ctx->tag);
+    printf("ctx->name: %s, ctx->tag: %d\n", ctx->name, ctx->tag);
 
     return 0;
 }
@@ -120,11 +129,11 @@ static void cb_xf_flush(struct flb_event_chunk *event_chunk,
     while (msgpack_unpack_next(&result,
                                 event_chunk->data,
                                 event_chunk->size, &off) == MSGPACK_UNPACK_SUCCESS) {
-        printf("[%zd] %s: [", cnt++, event_chunk->tag);
+        printf("-> index: %zd, chunk-tag: %s: ", cnt++, event_chunk->tag);
         flb_time_pop_from_msgpack(&tmp, &result, &p);
-        printf("%"PRIu32".%09lu, ", (uint32_t)tmp.tm.tv_sec, tmp.tm.tv_nsec);
+        printf(", tv_sec: %u, tv_nsec: %09lu, content: ", (uint32_t)tmp.tm.tv_sec, tmp.tm.tv_nsec);
         msgpack_object_print(stdout, *p);
-        printf("]\n");
+        printf("   ~~ \n");
     }
     msgpack_unpacked_destroy(&result);
     flb_free(buf);
