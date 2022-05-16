@@ -115,38 +115,19 @@ static void cb_xf_flush(struct flb_event_chunk *event_chunk,
 #endif
 
     /* Assuming data is a log entry...*/
-    if (ctx->out_format != FLB_PACK_JSON_FORMAT_NONE) {
-        json = flb_pack_msgpack_to_json_format(event_chunk->data,
-                                               event_chunk->size,
-                                               ctx->out_format,
-                                               ctx->json_date_format,
-                                               ctx->date_key);
-        write(STDOUT_FILENO, json, flb_sds_len(json));
-        flb_sds_destroy(json);
-
-        /*
-         * If we are 'not' in json_lines mode, we need to add an extra
-         * breakline.
-         */
-        if (ctx->out_format != FLB_PACK_JSON_FORMAT_LINES) {
-            printf("\n");
-        }
-        fflush(stdout);
+    
+    msgpack_unpacked_init(&result);
+    while (msgpack_unpack_next(&result,
+                                event_chunk->data,
+                                event_chunk->size, &off) == MSGPACK_UNPACK_SUCCESS) {
+        printf("[%zd] %s: [", cnt++, event_chunk->tag);
+        flb_time_pop_from_msgpack(&tmp, &result, &p);
+        printf("%"PRIu32".%09lu, ", (uint32_t)tmp.tm.tv_sec, tmp.tm.tv_nsec);
+        msgpack_object_print(stdout, *p);
+        printf("]\n");
     }
-    else {
-        msgpack_unpacked_init(&result);
-        while (msgpack_unpack_next(&result,
-                                   event_chunk->data,
-                                   event_chunk->size, &off) == MSGPACK_UNPACK_SUCCESS) {
-            printf("[%zd] %s: [", cnt++, event_chunk->tag);
-            flb_time_pop_from_msgpack(&tmp, &result, &p);
-            printf("%"PRIu32".%09lu, ", (uint32_t)tmp.tm.tv_sec, tmp.tm.tv_nsec);
-            msgpack_object_print(stdout, *p);
-            printf("]\n");
-        }
-        msgpack_unpacked_destroy(&result);
-        flb_free(buf);
-    }
+    msgpack_unpacked_destroy(&result);
+    flb_free(buf);
     fflush(stdout);
 
     FLB_OUTPUT_RETURN(FLB_OK);
