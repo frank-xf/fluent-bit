@@ -22,6 +22,8 @@
 
 #include <fluent-bit/flb_output_plugin.h>
 #include <fluent-bit/flb_sds.h>
+#include <fluent-bit/flb_pulsar.h>
+
 
 struct flb_xfout {
     flb_sds_t name;

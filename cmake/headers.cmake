@@ -30,6 +30,10 @@ include_directories(
   ${CMAKE_CURRENT_BINARY_DIR}/lib/monkey/include/monkey/
   )
 
+if(FLB_IN_PULSAR OR FLB_OUT_PULSAR)
+  include_directories(${FLB_PATH_ROOT_SOURCE}/${FLB_PATH_LIB_PULSAR}/include/)
+endif()
+
 if(FLB_IN_KAFKA OR FLB_OUT_KAFKA)
     include_directories(${FLB_PATH_ROOT_SOURCE}/${FLB_PATH_LIB_RDKAFKA}/src/)
 endif()

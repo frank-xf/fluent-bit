@@ -785,6 +785,11 @@ if(FLB_BACKTRACE)
   include_directories("${CMAKE_CURRENT_BINARY_DIR}/backtrace-prefix/include/")
 endif()
 
+if(FLB_IN_PULSAR OR FLB_OUT_PULSAR)
+
+    add_subdirectory(${FLB_PATH_LIB_PULSAR} EXCLUDE_FROM_ALL)
+endif()
+
 if(FLB_IN_KAFKA OR FLB_OUT_KAFKA)
     FLB_OPTION(RDKAFKA_BUILD_STATIC    On)
     FLB_OPTION(RDKAFKA_BUILD_EXAMPLES Off)

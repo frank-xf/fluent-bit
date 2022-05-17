@@ -39,6 +39,14 @@ static int cb_xf_init(struct flb_output_instance *ins,
     (void) config;
     (void) data;
 
+    pulsar_client_t *client = flb_pulsar_create_client(FLB_PULSAR_BROKERS, "");
+    if (client == NULL) {
+        printf("create pulsar client failed !\n");
+    } else {
+        printf("create pulsar client ok !\n");
+    }
+
+
     ctx = flb_calloc(1, sizeof(struct flb_xfout));
     if (!ctx) {
         flb_errno();
