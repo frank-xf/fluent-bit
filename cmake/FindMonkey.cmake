@@ -8,6 +8,9 @@
 #  - MONKEY_FOUND      : source code found
 #  - MONKEY_INCLUDE_DIR: root include directory
 
+
+message(STATUS "fluent-bit root: " ${PROJECT_SOURCE_DIR})
+
 unset(MONKEY_INCLUDE_DIR CACHE)
 find_path(MONKEY_INCLUDE_DIR
   NAMES monkey/mk_core.h monkey/mk_lib.h
