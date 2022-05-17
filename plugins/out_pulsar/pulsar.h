@@ -17,8 +17,8 @@
  *  limitations under the License.
  */
 
-#ifndef FLB_OUT_XFOUT
-#define FLB_OUT_XFOUT
+#ifndef FLB_OUT_PULSAR
+#define FLB_OUT_PULSAR
 
 #include <fluent-bit/flb_output_plugin.h>
 #include <fluent-bit/flb_sds.h>

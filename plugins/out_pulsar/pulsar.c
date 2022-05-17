@@ -26,7 +26,7 @@
 #include <fluent-bit/flb_metrics.h>
 
 #include <msgpack.h>
-#include "xfout.h"
+#include "pulsar.h"
 
 
 static int cb_xf_init(struct flb_output_instance *ins,
@@ -172,9 +172,9 @@ static struct flb_config_map config_map[] = {
 };
 
 /* Plugin registration */
-struct flb_output_plugin out_xfout_plugin = {
-    .name         = "xfout",
-    .description  = "Prints events to XF_OUT",
+struct flb_output_plugin out_pulsar_plugin = {
+    .name         = "pulsar",
+    .description  = "Prints events to pulsar",
     .cb_init      = cb_xf_init,
     .cb_flush     = cb_xf_flush,
     .cb_exit      = cb_xf_exit,
